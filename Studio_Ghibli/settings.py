@@ -42,7 +42,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
 
+
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -75,9 +79,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Studio_Ghibli.wsgi.application'
 
-REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
-}
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -131,3 +132,16 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Cache time in seconds
+CACHE_TTL = 30
+
+# Cache settings
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': [
+            '127.0.0.1:11211',
+        ]
+    }
+}

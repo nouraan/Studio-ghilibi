@@ -1,23 +1,36 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
-# from rest_framework.serializers import Serializer
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from . models import Films
+from django.http.request import QueryDict
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from Studio_Ghibli.settings import CACHE_TTL
+from Movies.api import StudioGhibliApi as api
 from . serializer import MyMoviesSerilazier
+from rest_framework.response import Response
+from rest_framework import views
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
-from threading import Timer
 
-class MyMoviesList(generics.ListAPIView): 
-      queryset = Films.objects.all()
-      serializer_class = MyMoviesSerilazier
-      filter_backends = [DjangoFilterBackend]
-      #The Filter Fields
-      filterset_fields   = ['Film','person']
-    
 
+@method_decorator(cache_page(CACHE_TTL), name='dispatch')
+class MoviesListView(views.APIView):
+    def get(self, request):
+        FilmName = self.request.query_params.get('film')
+        PersonName = self.request.query_params.get('name')
+        Movies=api.Get_Films_And_People()
+        # People=api.People_Query()
+        if FilmName != None:
+            Film_Filtered_Data=api.Films_Filter(Movies,FilmName)
+            results = MyMoviesSerilazier(Film_Filtered_Data, many=True).data
+        elif PersonName !=None:
+            People_Filtered_Data=api.People_Filter(Movies,PersonName)
+            results = MyMoviesSerilazier(People_Filtered_Data, many=True).data
+        else:
+            results = MyMoviesSerilazier(Movies, many=True).data
       
+        return Response(results)
 
+# @method_decorator(cache_page(CACHE_TTL), name='dispatch')
+# class MoviesListView(generics.ListAPIView):
+#     def get_queryset(self):
+#         queryset =api.Get_Films_And_People()
+#         serializer_class = MyMoviesSerilazier
+#         return queryset
