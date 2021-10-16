@@ -1,6 +1,6 @@
 # Studio-ghilibi
 
-###Installation:
+### Installation:
 #### 1-Clone repository and go inside the repository folder "Studio-ghilibi"
 ```bash
 git clone https://github.com/nouraan/Studio-ghilibi.git 
@@ -20,6 +20,8 @@ python manage.py migrate
 ```bash
 python manage.py runserver
 ```
+
+### Usage:
 
 ### 1-Movies Url:
 #### http://127.0.0.1:8000/Movies/
