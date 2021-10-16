@@ -37,7 +37,7 @@ contain the list of the filtered Film and the people who appear on it.
 contain actor name and the film which he appeared on.
 
 ### Note:
-After Refresh The web page  will be cached for 60 seconds(I Used python-memcached ).
+After Refresh The web page it will be cached for 60 seconds.
 
 ### SQL Fiddle Link:
 #### http://sqlfiddle.com/#!17/3ff32/36167
