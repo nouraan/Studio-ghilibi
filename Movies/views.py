@@ -13,15 +13,17 @@ from rest_framework import generics
 @method_decorator(cache_page(CACHE_TTL), name='dispatch')
 class MoviesListView(views.APIView):
     def get(self, request):
+        #Take Parameters From the URL
         FilmName = self.request.query_params.get('film')
         PersonName = self.request.query_params.get('name')
-        Movies=api.Get_Films_And_People()
-        # People=api.People_Query()
+        Movies=api.Get_Films_And_People()   
         if FilmName != None:
             Film_Filtered_Data=api.Films_Filter(Movies,FilmName)
             results = MyMoviesSerilazier(Film_Filtered_Data, many=True).data
         elif PersonName !=None:
-            People_Filtered_Data=api.People_Filter(Movies,PersonName)
+            Person_Filter=api.People_Filtered_Query(PersonName)
+            # print('Person_Filter',Person_Filter)
+            People_Filtered_Data=api.Get_Films_And_People_Filtered(PersonName)
             results = MyMoviesSerilazier(People_Filtered_Data, many=True).data
         else:
             results = MyMoviesSerilazier(Movies, many=True).data
