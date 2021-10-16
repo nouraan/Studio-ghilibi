@@ -1,5 +1,26 @@
 # Studio-ghilibi
 
+###Installation:
+#### 1-Clone repository and go inside the repository folder "Studio-ghilibi"
+```bash
+git clone https://github.com/nouraan/Studio-ghilibi.git 
+```
+#### 2-Create you virtualenv and install the packages
+```bash
+pipenv install Django
+pipenv install djangorestframework
+pipenv install requests
+pipenv install python-memcached
+```
+#### 3-Migrate the database.
+```bash
+python manage.py migrate
+```
+#### 4-Run the application.
+```bash
+python manage.py runserver
+```
+
 ### 1-Movies Url:
 #### http://127.0.0.1:8000/Movies/
 contain a plain list of all movies from the Ghibli API. For each movie, the people that appear in it are listed.
